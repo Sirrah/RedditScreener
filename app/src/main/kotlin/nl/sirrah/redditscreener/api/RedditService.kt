@@ -8,12 +8,15 @@ import nl.sirrah.redditscreener.BuildConfig
 import retrofit.GsonConverterFactory
 import retrofit.Retrofit
 import retrofit.RxJavaCallAdapterFactory
+import retrofit.http.GET
+import retrofit.http.Path
+import rx.Observable
 
-class RedditClient {
+interface RedditService {
     companion object {
         val BASE_URL = "https://www.reddit.com"
 
-        fun create(): RedditAPI {
+        fun create(): RedditService {
             val gson = GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                     .registerTypeAdapterFactory(ItemTypeAdapterFactory())
@@ -35,8 +38,10 @@ class RedditClient {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
 
-            return retrofit.create(RedditAPI::class.java)
+            return retrofit.create(RedditService::class.java)
         }
     }
 
+    @GET("/r/{subreddit}.json")
+    fun listing(@Path("subreddit") subreddit: String): Observable<Listing>
 }
