@@ -1,7 +1,8 @@
-package nl.sirrah.redditscreener
+package nl.sirrah.redditscreener.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import nl.sirrah.redditscreener.R
 
 class MainActivity : AppCompatActivity() {
 
