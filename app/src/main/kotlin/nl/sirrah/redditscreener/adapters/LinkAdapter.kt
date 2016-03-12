@@ -32,8 +32,8 @@ class LinkAdapter(val data: List<Link>) : RecyclerView.Adapter<LinkAdapter.ViewH
                     .load(uri)
                     .fit()
                     .centerCrop()
-                    .error(android.R.drawable.btn_plus)
-                    .placeholder(android.R.drawable.btn_plus)
+                    .error(R.drawable.ic_broken_image_black_48dp)
+                    .placeholder(R.drawable.ic_landscape_black_48dp)
                     .into(target)
         }
     }
