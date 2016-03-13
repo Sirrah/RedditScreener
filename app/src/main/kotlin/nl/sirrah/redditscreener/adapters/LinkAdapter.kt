@@ -25,7 +25,7 @@ class LinkAdapter(val data: List<Link>) : RecyclerView.Adapter<LinkAdapter.ViewH
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(data[position]) {
-            val target : ImageView = holder.rootView.find(R.id.image)
+            val target: ImageView = holder.rootView.find(R.id.image)
 
             val uri = Uri.parse(thumbnail)
             Picasso.with(holder.rootView.context)
@@ -35,6 +35,18 @@ class LinkAdapter(val data: List<Link>) : RecyclerView.Adapter<LinkAdapter.ViewH
                     .error(R.drawable.ic_broken_image_black_48dp)
                     .placeholder(R.drawable.ic_landscape_black_48dp)
                     .into(target)
+
+            target.setOnClickListener {
+                // TODO replace the thumbnail with the larger image and rescale the grid item or
+                // transition to a larger sized fragment or activitys
+
+                // TODO start another activity to display the larger image
+//                val context = target.getContext()
+//                val intent = Intent(context, )
+//                intent.setDataAndType(uri, "image/*")
+//
+//                context.startActivity(intent)
+            }
         }
     }
 

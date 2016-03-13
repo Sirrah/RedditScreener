@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val linksList: RecyclerView = find(R.id.links)
-        linksList.layoutManager = GridLayoutManager(this, 3)
+        linksList.layoutManager = GridLayoutManager(this, 2)
 
         redditService = RedditService.create()
 
