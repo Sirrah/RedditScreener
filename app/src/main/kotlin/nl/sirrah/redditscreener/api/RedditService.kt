@@ -2,14 +2,14 @@ package nl.sirrah.redditscreener.api
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.logging.HttpLoggingInterceptor
 import nl.sirrah.redditscreener.BuildConfig
-import retrofit.GsonConverterFactory
-import retrofit.Retrofit
-import retrofit.RxJavaCallAdapterFactory
-import retrofit.http.GET
-import retrofit.http.Path
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
 import rx.Observable
 
 interface RedditService {
@@ -22,19 +22,19 @@ interface RedditService {
                     .registerTypeAdapterFactory(ItemTypeAdapterFactory())
                     .create()
 
-            val okHttpClient = OkHttpClient()
+            val okHttpClientBuilder = OkHttpClient.Builder()
 
             // Add logging when in debug mode
             if (BuildConfig.DEBUG) {
                 val logger = HttpLoggingInterceptor()
                 logger.level = HttpLoggingInterceptor.Level.BODY
-                okHttpClient.interceptors().add(logger)
+                okHttpClientBuilder.addInterceptor(logger)
             }
 
             val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(okHttpClient)
+                    .client(okHttpClientBuilder.build())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
 
