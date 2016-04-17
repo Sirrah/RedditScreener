@@ -14,7 +14,7 @@ import rx.Observable
 
 interface RedditService {
     companion object {
-        val BASE_URL = "https://www.reddit.com"
+        val BASE_URL = "https://www.reddit.com/"
 
         fun create(): RedditService {
             val gson = GsonBuilder()
@@ -42,6 +42,6 @@ interface RedditService {
         }
     }
 
-    @GET("/r/{subreddit}.json")
+    @GET("r/{subreddit}.json")
     fun listing(@Path("subreddit") subreddit: String): Observable<Listing>
 }
