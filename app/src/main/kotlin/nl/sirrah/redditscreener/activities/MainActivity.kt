@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     val TAG = javaClass.simpleName
 
-    lateinit var redditService: RedditService
+    val redditService by lazy { RedditService.create() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
 
         val linksList: RecyclerView = find(R.id.links)
         linksList.layoutManager = GridLayoutManager(this, 2)
-
-        redditService = RedditService.create()
 
         redditService.listing("awww")
                 .subscribeOn(Schedulers.io())
