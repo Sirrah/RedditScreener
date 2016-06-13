@@ -38,7 +38,7 @@ class LinkAdapter(val data: List<Link>) : RecyclerView.Adapter<LinkAdapter.ViewH
 
             target.setOnClickListener {
                 // TODO replace the thumbnail with the larger image and rescale the grid item or
-                // transition to a larger sized fragment or activitys
+                // transition to a larger sized fragment or activity
 
                 // TODO start another activity to display the larger image
 //                val context = target.getContext()
