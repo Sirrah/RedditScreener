@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import nl.sirrah.redditscreener.R
 import nl.sirrah.redditscreener.fragments.OverviewFragment
+import org.jetbrains.anko.find
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val toolbar: Toolbar = find(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         if (savedInstanceState == null) {
             changeFragment(OverviewFragment())

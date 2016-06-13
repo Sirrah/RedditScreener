@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,15 +29,23 @@ class OverviewFragment : Fragment(), AnkoLogger {
             val linksList: RecyclerView = view.find(R.id.links)
             linksList.layoutManager = GridLayoutManager(context, 2)
 
-            redditService.listing("awww")
+            val subreddit = "awww"
+            redditService.listing(subreddit)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { listing ->
                         debug("Received: $listing")
                         linksList.adapter = LinkAdapter(listing.children);
+
+                        setTitle("/r/" + subreddit)
                     }
         }
 
         return view;
+    }
+
+    fun setTitle(title: String) {
+        val toolbar: Toolbar? = activity?.find(R.id.toolbar)
+        toolbar?.title = title
     }
 }
