@@ -48,10 +48,16 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
 
+    // TODO remove picasso, update Realm
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.facebook.fresco:fresco:0.10.0'
+    compile 'com.facebook.fresco:imagepipeline-okhttp3:0.10.0'
 
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
+
+    compile 'com.trello:rxlifecycle:0.4.0'
+    compile 'com.trello:rxlifecycle-components:0.4.0'
 
     compile 'io.realm:realm-android:0.87.2'
     compile 'joda-time:joda-time:2.9.1'
