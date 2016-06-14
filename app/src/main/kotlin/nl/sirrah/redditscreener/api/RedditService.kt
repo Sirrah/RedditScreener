@@ -10,13 +10,14 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import rx.Observable
 
 interface RedditService {
     companion object {
         val BASE_URL = "https://www.reddit.com/"
 
-        val okHttpClient : OkHttpClient by lazy {
+        val okHttpClient: OkHttpClient by lazy {
             val okHttpClientBuilder = OkHttpClient.Builder()
 
             // Add logging when in debug mode
@@ -47,5 +48,8 @@ interface RedditService {
     }
 
     @GET("r/{subreddit}.json")
-    fun listing(@Path("subreddit") subreddit: String): Observable<Listing>
+    fun listing(@Path("subreddit") subreddit: String,
+                @Query("after") after: String = "",
+                @Query("limit") limit: Int = 3)
+            : Observable<Listing>
 }

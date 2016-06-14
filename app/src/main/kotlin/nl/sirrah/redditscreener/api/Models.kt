@@ -3,7 +3,7 @@ package nl.sirrah.redditscreener.api
 import nl.sirrah.redditscreener.adapters.AdapterConstants
 import nl.sirrah.redditscreener.common.adapters.ViewType
 
-data class Listing(var children: List<Link>)
+data class Listing(var children: List<Link>, var after: String, var before: String?)
 
 /**
  * t3 (link) type
