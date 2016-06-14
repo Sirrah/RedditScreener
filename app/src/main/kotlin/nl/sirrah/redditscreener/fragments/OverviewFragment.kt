@@ -9,7 +9,10 @@ import android.view.ViewGroup
 import com.trello.rxlifecycle.components.support.RxFragment
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.sirrah.redditscreener.R
-import nl.sirrah.redditscreener.adapters.LinkAdapter
+import nl.sirrah.redditscreener.adapters.AdapterConstants
+import nl.sirrah.redditscreener.adapters.DelegateAdapter
+import nl.sirrah.redditscreener.adapters.ThumbnailAdapterDelegate
+import nl.sirrah.redditscreener.api.Link
 import nl.sirrah.redditscreener.api.Listing
 import nl.sirrah.redditscreener.api.RedditService
 import nl.sirrah.redditscreener.common.extensions.inflate
@@ -20,7 +23,6 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class OverviewFragment : RxFragment(), AnkoLogger {
-    val redditService by lazy { RedditService.instance }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?) : View? {
@@ -33,18 +35,19 @@ class OverviewFragment : RxFragment(), AnkoLogger {
         links.layoutManager = GridLayoutManager(context, 2)
         links.setHasFixedSize(true)
 
-        // TODO can we accidentally run this more times than necessary in the fragment lifecycle?
-        val linkAdapter = LinkAdapter()
+        val linkAdapter = DelegateAdapter<Link>()
+                .addDelegate(AdapterConstants.LINK, ThumbnailAdapterDelegate())
+
         links.adapter = linkAdapter
 
         val subreddit = "awww"
-        redditService.listing(subreddit)
+        RedditService.instance.listing(subreddit)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose (bindToLifecycle<Listing>())
                 .subscribe { listing ->
                     debug("Received: $listing")
-                    linkAdapter.addLinks(listing.children);
+                    linkAdapter.addItems(listing.children);
 
                     setTitle("/r/$subreddit")
                 }
