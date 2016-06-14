@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
                         R.anim.abc_popup_enter, R.anim.abc_popup_exit)
-                .replace(R.id.activity_base_content, fragment)
+                .replace(R.id.content, fragment)
                 .addToBackStack(null)
                 .commit()
     }
