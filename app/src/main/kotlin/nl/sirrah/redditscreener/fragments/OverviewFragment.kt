@@ -24,7 +24,7 @@ class OverviewFragment : RxFragment(), AnkoLogger {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?) : View? {
-        return container?.inflate(R.layout.fragment_overview)
+        return container!!.inflate(R.layout.fragment_overview)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -33,6 +33,10 @@ class OverviewFragment : RxFragment(), AnkoLogger {
         links.layoutManager = GridLayoutManager(context, 2)
         links.setHasFixedSize(true)
 
+        // TODO can we accidentally run this more times than necessary in the fragment lifecycle?
+        val linkAdapter = LinkAdapter()
+        links.adapter = linkAdapter
+
         val subreddit = "awww"
         redditService.listing(subreddit)
                 .subscribeOn(Schedulers.io())
@@ -40,9 +44,9 @@ class OverviewFragment : RxFragment(), AnkoLogger {
                 .compose (bindToLifecycle<Listing>())
                 .subscribe { listing ->
                     debug("Received: $listing")
-                    links.adapter = LinkAdapter(listing.children);
+                    linkAdapter.addLinks(listing.children);
 
-                    setTitle("/r/" + subreddit)
+                    setTitle("/r/$subreddit")
                 }
     }
 
