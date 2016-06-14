@@ -16,14 +16,7 @@ interface RedditService {
     companion object {
         val BASE_URL = "https://www.reddit.com/"
 
-        val instance by lazy { create() }
-
-        private fun create(): RedditService {
-            val gson = GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .registerTypeAdapterFactory(ItemTypeAdapterFactory())
-                    .create()
-
+        val okHttpClient : OkHttpClient by lazy {
             val okHttpClientBuilder = OkHttpClient.Builder()
 
             // Add logging when in debug mode
@@ -33,14 +26,23 @@ interface RedditService {
                 okHttpClientBuilder.addInterceptor(logger)
             }
 
+            okHttpClientBuilder.build()
+        }
+
+        val instance by lazy {
+            val gson = GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .registerTypeAdapterFactory(ItemTypeAdapterFactory())
+                    .create()
+
             val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(okHttpClientBuilder.build())
+                    .client(okHttpClient)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
 
-            return retrofit.create(RedditService::class.java)
+            retrofit.create(RedditService::class.java)
         }
     }
 
