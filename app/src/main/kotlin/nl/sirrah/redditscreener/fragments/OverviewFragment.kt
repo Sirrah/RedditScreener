@@ -2,12 +2,12 @@ package nl.sirrah.redditscreener.fragments
 
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trello.rxlifecycle.components.support.RxFragment
+import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.sirrah.redditscreener.R
 import nl.sirrah.redditscreener.adapters.LinkAdapter
 import nl.sirrah.redditscreener.api.Listing
@@ -20,30 +20,30 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class OverviewFragment : RxFragment(), AnkoLogger {
-    val redditService by lazy { RedditService.create() }
+    val redditService by lazy { RedditService.instance }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
-            : View? {
-        val view = container?.inflate(R.layout.fragment_overview)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?) : View? {
+        return container?.inflate(R.layout.fragment_overview)
+    }
 
-        if (view != null) {
-            val linksList: RecyclerView = view.find(R.id.links)
-            linksList.layoutManager = GridLayoutManager(context, 2)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-            val subreddit = "awww"
-            redditService.listing(subreddit)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .compose (bindToLifecycle<Listing>())
-                    .subscribe { listing ->
-                        debug("Received: $listing")
-                        linksList.adapter = LinkAdapter(listing.children);
+        links.layoutManager = GridLayoutManager(context, 2)
+        links.setHasFixedSize(true)
 
-                        setTitle("/r/" + subreddit)
-                    }
-        }
+        val subreddit = "awww"
+        redditService.listing(subreddit)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose (bindToLifecycle<Listing>())
+                .subscribe { listing ->
+                    debug("Received: $listing")
+                    links.adapter = LinkAdapter(listing.children);
 
-        return view;
+                    setTitle("/r/" + subreddit)
+                }
     }
 
     fun setTitle(title: String) {

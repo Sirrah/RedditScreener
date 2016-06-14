@@ -16,7 +16,9 @@ interface RedditService {
     companion object {
         val BASE_URL = "https://www.reddit.com/"
 
-        fun create(): RedditService {
+        val instance by lazy { create() }
+
+        private fun create(): RedditService {
             val gson = GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                     .registerTypeAdapterFactory(ItemTypeAdapterFactory())
