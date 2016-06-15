@@ -33,28 +33,36 @@ class OverviewFragment : RxFragment(), AnkoLogger {
     private val linkAdapter = DelegateAdapter<Link>()
             .addDelegate(AdapterConstants.LINK, ThumbnailAdapterDelegate())
 
+    private var lastItem: String = ""
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         links.layoutManager = GridLayoutManager(context, 2)
         links.setHasFixedSize(true)
         links.adapter = linkAdapter
+        links.addOnScrollListener(InfiniteScrollListener {
+            loadSubReddit("awww")
+        })
 
         loadSubReddit("awww")
     }
 
     private fun loadSubReddit(subreddit: String) {
-        RedditService.instance.listing(subreddit)
+        RedditService.instance.listing(subreddit, after = lastItem, limit = 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose (bindToLifecycle<Listing>())
                 .subscribe({ listing ->
                     linkAdapter.addItems(listing.children);
+                    lastItem = listing.after
 
                     setTitle("/r/$subreddit")
                 }, { e ->
                     snackbar("Caught exception: ${e.message}", Snackbar.LENGTH_LONG)
                             .setAction(R.string.retry) {
+                                // Reset the list to the beginning
+                                lastItem = ""
                                 loadSubReddit(subreddit)
                             }
                 })
