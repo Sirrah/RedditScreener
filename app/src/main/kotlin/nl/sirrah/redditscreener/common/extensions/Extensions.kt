@@ -28,17 +28,17 @@ fun SimpleDraweeView.setImageUri(uri: String) {
 }
 
 fun View.snackbar(text: CharSequence, duration: Int = Snackbar.LENGTH_SHORT, init: Snackbar.() -> Unit = {}): Snackbar {
-    val snackbar = Snackbar.make(this, text, duration)
-    snackbar.init()
-    snackbar.show()
-    return snackbar
+    return Snackbar.make(this, text, duration).apply {
+        init()
+        show()
+    }
 }
 
 fun View.snackbar(text: Int, duration: Int = Snackbar.LENGTH_SHORT, init: Snackbar.() -> Unit = {}): Snackbar {
-    val snackbar = Snackbar.make(this, text, duration)
-    snackbar.init()
-    snackbar.show()
-    return snackbar
+    return Snackbar.make(this, text, duration).apply {
+        init()
+        show()
+    }
 }
 
 fun Fragment.snackbar(text: CharSequence, duration: Int = Snackbar.LENGTH_SHORT, init: Snackbar.() -> Unit = {}): Snackbar =
