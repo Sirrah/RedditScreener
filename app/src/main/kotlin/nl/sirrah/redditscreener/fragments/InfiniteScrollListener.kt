@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import nl.sirrah.redditscreener.common.extensions.snackbar
 
-class InfiniteScrollListener(val func: () -> Unit) : RecyclerView.OnScrollListener() {
+class InfiniteScrollListener(val onEndReached: () -> Unit) : RecyclerView.OnScrollListener() {
     private var previousTotal = 0
     private var loading = true
     private var visibleThreshold = 2
@@ -13,12 +13,13 @@ class InfiniteScrollListener(val func: () -> Unit) : RecyclerView.OnScrollListen
     private var totalItemCount = 0
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        // FIXME not typesafe
-        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
         if (dy > 0) {
             visibleItemCount = recyclerView.childCount;
-            totalItemCount = layoutManager.itemCount;
-            firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+            totalItemCount = recyclerView.layoutManager.itemCount;
+
+            // FIXME is this a decent fallback?
+            firstVisibleItem = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findFirstVisibleItemPosition() ?: 0;
 
             if (loading) {
                 if (totalItemCount > previousTotal) {
@@ -29,7 +30,7 @@ class InfiniteScrollListener(val func: () -> Unit) : RecyclerView.OnScrollListen
             if (!loading
                     && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 recyclerView.snackbar("Getting more...")
-                func()
+                onEndReached()
                 loading = true;
             }
         }

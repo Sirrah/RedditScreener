@@ -2,7 +2,7 @@ package nl.sirrah.redditscreener.fragments
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
@@ -38,13 +38,17 @@ class OverviewFragment : RxFragment(), AnkoLogger {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        links.layoutManager = GridLayoutManager(context, 2)
-        links.setHasFixedSize(true)
-        links.adapter = linkAdapter
-        links.addOnScrollListener(InfiniteScrollListener {
-            loadSubReddit("awww")
-        })
+        links.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = linkAdapter
 
+            addOnScrollListener(InfiniteScrollListener (onEndReached = {
+                loadSubReddit("awww")
+            }))
+        }
+
+        // TODO shouldn't it also work without loading any initial data due to the scroll listener?
         loadSubReddit("awww")
     }
 
