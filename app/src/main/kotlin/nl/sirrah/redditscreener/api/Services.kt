@@ -39,7 +39,7 @@ class Services {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
 
-            retrofit.create(RedditAPI::class.java)
+            retrofit.create(RedditApi::class.java)
         }
     }
 }
