@@ -54,12 +54,15 @@ class OverviewFragment : RxFragment(), AnkoLogger {
                     setTitle("/r/$subreddit")
                 }, { e ->
                     snackbar("Caught exception: ${e.message}", Snackbar.LENGTH_LONG)
-                            .setAction(R.string.retry, {
+                            .setAction(R.string.retry) {
                                 loadSubReddit(subreddit)
-                            })
-                });
+                            }
+                })
     }
 
+    /**
+     * If there is a toolbar, set it's title to the given string
+     */
     private fun setTitle(title: String) {
         val toolbar: Toolbar? = activity?.find(R.id.toolbar)
         toolbar?.title = title

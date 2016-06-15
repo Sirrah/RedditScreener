@@ -22,7 +22,6 @@ fun SimpleDraweeView.setImageUri(uri: String) {
     }
 }
 
-
 fun View.snackbar(text: CharSequence, duration: Int = Snackbar.LENGTH_SHORT, init: Snackbar.() -> Unit = {}): Snackbar {
     val snackbar = Snackbar.make(this, text, duration)
     snackbar.init()
