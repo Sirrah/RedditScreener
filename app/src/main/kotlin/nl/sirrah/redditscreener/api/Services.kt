@@ -30,7 +30,7 @@ class Services {
             val gson = GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                     .registerTypeAdapterFactory(ItemTypeAdapterFactory())
-                    .create()
+                    .create ()
 
             val retrofit = Retrofit.Builder()
                     .baseUrl(REDDIT_BASE_URL)
@@ -39,7 +39,7 @@ class Services {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
 
-            retrofit.create(RedditService::class.java)
+            retrofit.create(RedditAPI::class.java)
         }
     }
 }
