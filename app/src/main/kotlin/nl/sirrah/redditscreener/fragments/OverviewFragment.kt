@@ -15,7 +15,7 @@ import nl.sirrah.redditscreener.adapters.DelegateAdapter
 import nl.sirrah.redditscreener.adapters.ThumbnailAdapterDelegate
 import nl.sirrah.redditscreener.api.Link
 import nl.sirrah.redditscreener.api.Listing
-import nl.sirrah.redditscreener.api.RedditService
+import nl.sirrah.redditscreener.api.Services
 import nl.sirrah.redditscreener.common.extensions.inflate
 import nl.sirrah.redditscreener.common.extensions.snackbar
 import org.jetbrains.anko.AnkoLogger
@@ -53,7 +53,7 @@ class OverviewFragment : RxFragment(), AnkoLogger {
     }
 
     private fun loadSubReddit(subreddit: String) {
-        RedditService.instance.listing(subreddit, after = lastItem, limit = 20)
+        Services.reddit.listing(subreddit, after = lastItem, limit = 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose (bindToLifecycle<Listing>())

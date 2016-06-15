@@ -7,7 +7,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import com.facebook.imagepipeline.listener.RequestListener
 import com.facebook.imagepipeline.listener.RequestLoggingListener
-import nl.sirrah.redditscreener.api.RedditService
+import nl.sirrah.redditscreener.api.Services
 import java.util.*
 
 class RedditScreenerApplication : Application() {
@@ -25,7 +25,7 @@ class RedditScreenerApplication : Application() {
         requestListeners.add(RequestLoggingListener())
 
         val config = OkHttpImagePipelineConfigFactory
-                .newBuilder(context, RedditService.okHttpClient)
+                .newBuilder(context, Services.okHttpClient)
                 .setRequestListeners(requestListeners)
                 .build()
 
