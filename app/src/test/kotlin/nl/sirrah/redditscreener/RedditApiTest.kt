@@ -2,6 +2,7 @@ package nl.sirrah.redditscreener
 
 import nl.sirrah.redditscreener.api.Listing
 import nl.sirrah.redditscreener.api.RedditApi
+import nl.sirrah.redditscreener.api.RedditResponse
 import nl.sirrah.redditscreener.common.mock
 import nl.sirrah.redditscreener.common.mockWhen
 import org.junit.Before
@@ -16,13 +17,14 @@ class RedditApiTest {
     private var redditApi = mock<RedditApi>()
 
     val emptyListing = Listing(children = emptyList(), after = "mock", before = null)
+    val emptyListingResponse = RedditResponse(data = emptyListing, kind = "Listing")
 
-    val subscriber = TestSubscriber<Listing>()
+    val subscriber = TestSubscriber<RedditResponse>()
 
     @Before
     fun setup() {
         mockWhen(redditApi.listing(anyString(), anyString(), anyInt())).thenReturn(
-                just(emptyListing)
+                just(emptyListingResponse)
         )
     }
 

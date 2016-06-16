@@ -10,5 +10,5 @@ interface RedditApi {
     fun listing(@Path("subreddit") subreddit: String,
                 @Query("after") after: String = "",
                 @Query("limit") limit: Int = 20)
-            : Observable<Listing>
+            : Observable<RedditResponse>
 }

@@ -29,7 +29,6 @@ class Services {
         val reddit by lazy {
             val gson = GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .registerTypeAdapterFactory(ItemTypeAdapterFactory())
                     .create ()
 
             val retrofit = Retrofit.Builder()

@@ -14,7 +14,7 @@ import nl.sirrah.redditscreener.adapters.AdapterConstants
 import nl.sirrah.redditscreener.adapters.DelegateAdapter
 import nl.sirrah.redditscreener.adapters.ThumbnailAdapterDelegate
 import nl.sirrah.redditscreener.api.Link
-import nl.sirrah.redditscreener.api.Listing
+import nl.sirrah.redditscreener.api.RedditResponse
 import nl.sirrah.redditscreener.api.Services
 import nl.sirrah.redditscreener.common.extensions.inflate
 import nl.sirrah.redditscreener.common.extensions.snackbar
@@ -56,10 +56,10 @@ class OverviewFragment : RxFragment(), AnkoLogger {
         Services.reddit.listing(subreddit, after = lastItem, limit = 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose (bindToLifecycle<Listing>())
-                .subscribe({ listing ->
-                    linkAdapter.addItems(listing.children);
-                    lastItem = listing.after
+                .compose (bindToLifecycle<RedditResponse>())
+                .subscribe({ response ->
+                    linkAdapter.addItems(response.data.children.map { it.data });
+                    lastItem = response.data.after
 
                     setTitle("/r/$subreddit")
                 }, { e ->
