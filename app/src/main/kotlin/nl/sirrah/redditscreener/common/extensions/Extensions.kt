@@ -17,7 +17,7 @@ fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
 }
 
-fun SimpleDraweeView.setImageUri(uri: String) {
+fun SimpleDraweeView.setImageUri(uri: String?) {
     if (!TextUtils.isEmpty(uri)) {
         // SimpleDraweeView.setImageUri is marked as deprecated in it's base class but is marked
         // with @undeprecate in SimpleDraweeView. Unfortunately Kotlin does not detect that javadoc
