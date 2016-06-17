@@ -30,8 +30,8 @@ class ItemTypeAdapterFactory : TypeAdapterFactory {
             }
 
             @Throws(IOException::class)
-            override fun read(`in`: JsonReader): T {
-                var jsonElement = elementAdapter.read(`in`)
+            override fun read(input: JsonReader): T {
+                var jsonElement = elementAdapter.read(input)
                 if (jsonElement.isJsonObject) {
                     val jsonObject = jsonElement.asJsonObject
                     if (jsonObject.has(wrapper)) {
