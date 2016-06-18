@@ -70,9 +70,8 @@ open class DelegateAdapter<T : ViewType> : RecyclerView.Adapter<RecyclerView.Vie
                 .map { it as T }
     }
 
-    fun addDelegate(viewType: Int, delegate: ViewTypeDelegateAdapter) : DelegateAdapter<T> {
+    fun addDelegate(viewType: Int, delegate: ViewTypeDelegateAdapter) : DelegateAdapter<T> = apply {
         delegates.put(viewType, delegate)
-        return this
     }
 
     private fun getLastPosition() = if (items.lastIndex == -1) 0 else items.lastIndex
