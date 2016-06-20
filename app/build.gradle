@@ -3,6 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'android-command'
 
+// List method count and create graph in app/build/outputs/dexcount/<flavor>Chart/index.html
+apply plugin: 'com.getkeepsafe.dexcount'
+
 android {
     compileSdkVersion 24
     buildToolsVersion '24.0.0'
@@ -35,6 +38,11 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_7
+//        targetCompatibility JavaVersion.VERSION_1_7
+//    }
 }
 
 dependencies {
@@ -76,14 +84,19 @@ dependencies {
 
     // Enable these to use the Anko DSL and disable anko-common
     // anko-sdkXX should correspond to the minSdkVersion
-//    compile "org.jetbrains.anko:anko-sdk21$anko_version"
-//    compile "org.jetbrains.anko:anko-support-v4$anko_version"
-//    compile "org.jetbrains.anko:anko-appcompat-v7$anko_version"
-//    compile "org.jetbrains.anko:anko-design:$anko_version"
-//    compile "org.jetbrains.anko:anko-recyclerview-v7:$anko_version"
+    // compile "org.jetbrains.anko:anko-sdk21$anko_version"
+    // compile "org.jetbrains.anko:anko-support-v4$anko_version"
+    // compile "org.jetbrains.anko:anko-appcompat-v7$anko_version"
+    // compile "org.jetbrains.anko:anko-design:$anko_version"
+    // compile "org.jetbrains.anko:anko-recyclerview-v7:$anko_version"
+
+    // Additional Kotlin tools for reflection
+    // compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'junit:junit:4.12'
+
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 
@@ -99,6 +112,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.novoda:gradle-android-command-plugin:1.5.0'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.0'
     }
 }
 
