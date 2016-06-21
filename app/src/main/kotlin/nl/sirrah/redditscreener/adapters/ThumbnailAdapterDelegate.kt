@@ -26,30 +26,7 @@ class ThumbnailAdapterDelegate : ViewTypeDelegateAdapter {
             parent.inflate(R.layout.link_item)) {
 
         fun bind(item: Link) = with(itemView) {
-            // FIXME for some reason the URLs for the different resolutions don't work
-//            image.setImageUri(item.preview.images.first().resolutions.findLast { it.width < 1080 }?.url
-//                    ?: item.thumbnail)
-            val imageMetadata = item.preview.images.first().source
-            image.setImageUri(imageMetadata.url)
-
-            var fullscreen = false
-            var originalHeight = image.layoutParams.height
-            image.setOnClickListener {
-                var params = image.layoutParams
-                params.height = if (!fullscreen) Math.max(imageMetadata.height, originalHeight) else originalHeight
-                image.layoutParams = params
-                image.invalidate()
-                fullscreen != fullscreen
-                // TODO replace the thumbnail with the larger image and rescale the grid item or
-                // transition to a larger sized fragment or activity
-
-                // TODO start another activity to display the larger image
-                //                val context = target.getContext()
-                //                val intent = Intent(context, )
-                //                intent.setDataAndType(uri, "image/*")
-                //
-                //                context.startActivity(intent)
-            }
+            image.setImageUri(item.preview.images.first().source.url)
         }
     }
 }
