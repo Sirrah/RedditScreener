@@ -19,6 +19,7 @@ import nl.sirrah.redditscreener.api.Services
 import nl.sirrah.redditscreener.common.extensions.inflate
 import nl.sirrah.redditscreener.common.extensions.snackbar
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 import org.jetbrains.anko.find
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -63,6 +64,7 @@ class OverviewFragment : RxFragment(), AnkoLogger {
 
                     setTitle("/r/$subreddit")
                 }, { e ->
+                    error("Exception while retrieving subreddit", e)
                     snackbar("Caught exception: ${e.message}", Snackbar.LENGTH_LONG)
                             .setAction(R.string.retry) {
                                 // Reset the list to the beginning

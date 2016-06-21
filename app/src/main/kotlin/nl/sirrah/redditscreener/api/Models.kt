@@ -58,6 +58,7 @@ data class Link(
             "ups": 709
          } */
 
+        var preview: Preview,
         var domain: String,
         //    public String bannedBy;
         //    public String mediaEmbed;
@@ -107,3 +108,10 @@ data class Link(
     // FIXME not nice to have to set this in the data model
     override fun getViewType() = AdapterConstants.LINK
 }
+
+data class Preview(var images: List<Images>)
+
+// TODO what can I expect for the variants field?
+data class Images(var source: ImageMetadata, var resolutions: List<ImageMetadata>, var id: String)
+
+data class ImageMetadata(var url: String, var width: Int, var height: Int)
