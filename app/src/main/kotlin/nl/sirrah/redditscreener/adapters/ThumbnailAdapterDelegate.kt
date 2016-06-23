@@ -10,7 +10,7 @@ import nl.sirrah.redditscreener.common.adapters.ViewTypeDelegateAdapter
 import nl.sirrah.redditscreener.common.extensions.inflate
 import nl.sirrah.redditscreener.common.extensions.setImageUri
 
-class ThumbnailAdapterDelegate : ViewTypeDelegateAdapter {
+class ThumbnailAdapterDelegate(val onClick: (item: Link) -> Unit) : ViewTypeDelegateAdapter {
 
     // TODO should be possible to remove these two methods so we only need to define the actual view
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -22,11 +22,17 @@ class ThumbnailAdapterDelegate : ViewTypeDelegateAdapter {
         holder.bind(item as Link)
     }
 
-    class ThumbnailViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    inner class ThumbnailViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             parent.inflate(R.layout.link_item)) {
 
-        fun bind(item: Link) = with(itemView) {
-            image.setImageUri(item.preview.images.first().source.url)
+        fun bind(item: Link) {
+            val url = item.preview.images.first().source.url
+            with(itemView) {
+                image.setImageUri(url)
+                image.setOnClickListener {
+                    onClick(item)
+                }
+            }
         }
     }
 }

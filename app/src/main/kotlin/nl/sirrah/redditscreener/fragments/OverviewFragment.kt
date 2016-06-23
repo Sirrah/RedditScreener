@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.trello.rxlifecycle.components.support.RxFragment
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.sirrah.redditscreener.R
+import nl.sirrah.redditscreener.activities.MainActivity
 import nl.sirrah.redditscreener.adapters.AdapterConstants
 import nl.sirrah.redditscreener.adapters.DelegateAdapter
 import nl.sirrah.redditscreener.adapters.ThumbnailAdapterDelegate
@@ -32,7 +33,17 @@ class OverviewFragment : RxFragment(), AnkoLogger {
     }
 
     private val linkAdapter = DelegateAdapter<Link>()
-            .addDelegate(AdapterConstants.LINK, ThumbnailAdapterDelegate())
+            .addDelegate(AdapterConstants.LINK, ThumbnailAdapterDelegate({ item ->
+                // TODO what happened to Anko's #withArguments?
+                val fragment = DetailFragment().apply {
+                    arguments = Bundle().apply {
+                        val url = item.preview.images.first().source.url
+                        putString("url", url)
+                        putString("description", item.selfttext)
+                    }
+                }
+                (activity as MainActivity).changeFragment(fragment)
+            }))
 
     private var lastItem: String = ""
 
