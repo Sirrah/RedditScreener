@@ -10,6 +10,7 @@ android {
     defaultConfig {
         applicationId 'nl.sirrah.redditscreener'
         targetSdkVersion 24
+        minSdkVersion 15
         versionCode 1
         versionName '0.0.1'
     }
@@ -18,15 +19,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    productFlavors {
-        dev {
-            minSdkVersion 21
-        }
-        prod {
-            minSdkVersion 15
         }
     }
 
@@ -76,7 +68,7 @@ dependencies {
 
     // Enable these to use the Anko DSL and disable anko-common
     // anko-sdkXX should correspond to the minSdkVersion
-//    compile "org.jetbrains.anko:anko-sdk21$anko_version"
+//    compile "org.jetbrains.anko:anko-sdk15$anko_version"
 //    compile "org.jetbrains.anko:anko-support-v4$anko_version"
 //    compile "org.jetbrains.anko:anko-appcompat-v7$anko_version"
 //    compile "org.jetbrains.anko:anko-design:$anko_version"
