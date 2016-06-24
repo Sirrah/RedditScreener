@@ -39,7 +39,7 @@ class OverviewFragment : RxFragment(), AnkoLogger {
                     arguments = Bundle().apply {
                         val url = item.preview.images.first().source.url
                         putString("url", url)
-                        putString("description", item.selfttext)
+                        putString("description", item.title)
                     }
                 }
                 (activity as MainActivity).changeFragment(fragment)
