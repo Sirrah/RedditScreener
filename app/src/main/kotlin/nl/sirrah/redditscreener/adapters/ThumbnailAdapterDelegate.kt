@@ -26,7 +26,7 @@ class ThumbnailAdapterDelegate(val onClick: (item: Link) -> Unit) : ViewTypeDele
             parent.inflate(R.layout.link_item)) {
 
         fun bind(item: Link) {
-            val url = item.preview.images.first().source.url
+            val url = item.preview?.images?.first()?.source?.url
             with(itemView) {
                 image.setImageUri(url)
                 image.setOnClickListener {

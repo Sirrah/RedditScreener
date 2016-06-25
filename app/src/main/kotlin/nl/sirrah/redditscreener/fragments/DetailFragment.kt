@@ -10,15 +10,13 @@ import android.view.ViewGroup
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.controller.BaseControllerListener
 import com.facebook.imagepipeline.image.ImageInfo
-import com.trello.rxlifecycle.components.support.RxFragment
 import nl.sirrah.redditscreener.R
 import nl.sirrah.redditscreener.common.extensions.inflate
 import nl.sirrah.redditscreener.common.extensions.snackbar
 import nl.sirrah.redditscreener.common.views.ZoomableDraweeView
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 
-class DetailFragment : RxFragment(), AnkoLogger {
+class DetailFragment : BaseFragment() {
 
     private var url: String? = null
 

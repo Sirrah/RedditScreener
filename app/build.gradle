@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'android-command'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 24
@@ -10,9 +11,11 @@ android {
     defaultConfig {
         applicationId 'nl.sirrah.redditscreener'
         targetSdkVersion 24
-        minSdkVersion 15
+        minSdkVersion 21
         versionCode 1
         versionName '0.0.1'
+
+        buildConfigField "long", "REALM_DATABASE_VERSION", "6"
     }
 
     buildTypes {
@@ -51,6 +54,9 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
+
+    // RealmBaseAdapter
+//    compile 'io.realm:android-adapters:1.0.1'
 
     compile 'com.facebook.fresco:fresco:0.10.0'
     compile 'com.facebook.fresco:imagepipeline-okhttp3:0.10.0'
@@ -91,6 +97,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.novoda:gradle-android-command-plugin:1.5.0'
+        classpath "io.realm:realm-gradle-plugin:1.0.1"
     }
 }
 

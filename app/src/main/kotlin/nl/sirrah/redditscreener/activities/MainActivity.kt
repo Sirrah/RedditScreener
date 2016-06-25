@@ -5,11 +5,17 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import io.realm.Realm
+import io.realm.RealmConfiguration
+import nl.sirrah.redditscreener.BuildConfig
 import nl.sirrah.redditscreener.R
+import nl.sirrah.redditscreener.api.RedditRealmMigration
 import nl.sirrah.redditscreener.fragments.OverviewFragment
 import org.jetbrains.anko.find
 
 class MainActivity : AppCompatActivity() {
+    var realm: Realm? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,6 +26,15 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             changeFragment(OverviewFragment())
         }
+
+        // Create configuration and reset Realm.
+        val realmConfig = RealmConfiguration.Builder(this)
+                .schemaVersion(BuildConfig.REALM_DATABASE_VERSION)
+                .migration(RedditRealmMigration())
+                .build()
+
+        // Open the realm for the UI thread.
+        realm = Realm.getInstance(realmConfig)
     }
 
     fun changeFragment(fragment: Fragment, cleanStack: Boolean = false) {
@@ -50,5 +65,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             finish();
         }
+    }
+
+    override fun onDestroy() {
+        realm?.close()
+
+        super.onDestroy()
     }
 }

@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trello.rxlifecycle.components.support.RxFragment
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.sirrah.redditscreener.R
 import nl.sirrah.redditscreener.activities.MainActivity
@@ -19,13 +18,12 @@ import nl.sirrah.redditscreener.api.Listing
 import nl.sirrah.redditscreener.api.Services
 import nl.sirrah.redditscreener.common.extensions.inflate
 import nl.sirrah.redditscreener.common.extensions.snackbar
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import org.jetbrains.anko.find
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class OverviewFragment : RxFragment(), AnkoLogger {
+class OverviewFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,7 +35,7 @@ class OverviewFragment : RxFragment(), AnkoLogger {
                 // TODO what happened to Anko's #withArguments?
                 val fragment = DetailFragment().apply {
                     arguments = Bundle().apply {
-                        val url = item.preview.images.first().source.url
+                        val url = item.preview?.images?.first()?.source?.url
                         putString("url", url)
                         putString("description", item.title)
                     }
@@ -70,7 +68,13 @@ class OverviewFragment : RxFragment(), AnkoLogger {
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose (bindToLifecycle<Listing>())
                 .subscribe({ listing ->
-                    linkAdapter.addItems(listing.children);
+                    realm.executeTransaction {
+                        realm.copyToRealmOrUpdate(listing.children)
+                    }
+
+                    val result = realm.where(Link::class.java)
+                            .findAll()
+                    linkAdapter.addItems(result);
                     lastItem = listing.after
 
                     setTitle("/r/$subreddit")
