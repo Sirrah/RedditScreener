@@ -63,17 +63,24 @@ class OverviewFragment : BaseFragment() {
     }
 
     private fun loadSubReddit(subreddit: String) {
+        // TODO use the RealmResults directly in the Adapter
+        val result = realm.where(Link::class.java)
+                .findAll()
+        linkAdapter.addItems(result);
+
         Services.reddit.listing(subreddit, after = lastItem, limit = 20)
+                .doOnNext { listing ->
+                    // Store in the database while still on the IO thread
+                    val realm = activity.newRealmInstance()
+
+                    realm.executeTransaction {
+                        realm.copyToRealmOrUpdate(listing.children)
+                    }
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose (bindToLifecycle<Listing>())
                 .subscribe({ listing ->
-                    realm.executeTransaction {
-                        realm.copyToRealmOrUpdate(listing.children)
-                    }
-
-                    val result = realm.where(Link::class.java)
-                            .findAll()
                     linkAdapter.addItems(result);
                     lastItem = listing.after
 

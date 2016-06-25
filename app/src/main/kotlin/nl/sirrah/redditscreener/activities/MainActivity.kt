@@ -14,6 +14,8 @@ import nl.sirrah.redditscreener.fragments.OverviewFragment
 import org.jetbrains.anko.find
 
 class MainActivity : AppCompatActivity() {
+    private var realmConfig: RealmConfiguration? = null
+
     var realm: Realm? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,13 +30,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Create configuration and reset Realm.
-        val realmConfig = RealmConfiguration.Builder(this)
+        realmConfig = RealmConfiguration.Builder(this)
                 .schemaVersion(BuildConfig.REALM_DATABASE_VERSION)
                 .migration(RedditRealmMigration())
                 .build()
 
         // Open the realm for the UI thread.
-        realm = Realm.getInstance(realmConfig)
+        realm = newRealmInstance()
+    }
+
+    fun newRealmInstance(): Realm {
+        return Realm.getInstance(realmConfig)
     }
 
     fun changeFragment(fragment: Fragment, cleanStack: Boolean = false) {
