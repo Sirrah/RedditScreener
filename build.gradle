@@ -1,9 +1,17 @@
 buildscript {
+    ext.kotlin_version = '1.0.6'
+    ext.anko_version = '0.9'
+    ext.support_version = '25.1.0'
+
     repositories {
         jcenter()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'io.realm:realm-gradle-plugin:2.2.2'
+        classpath 'com.novoda:gradle-android-command-plugin:1.5.0'
     }
 }
 

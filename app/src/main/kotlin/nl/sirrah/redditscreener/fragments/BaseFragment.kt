@@ -7,10 +7,9 @@ import org.jetbrains.anko.AnkoLogger
 
 abstract class BaseFragment : RxFragment(), AnkoLogger {
 
-    val activity : MainActivity
+    val activity: MainActivity
         get() = super.getActivity() as MainActivity
 
     val realm: Realm
-        get() = activity.realm!!
-
+        get() = activity.realm
 }

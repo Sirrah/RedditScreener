@@ -7,9 +7,9 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.sirrah.redditscreener.R
-import nl.sirrah.redditscreener.activities.MainActivity
 import nl.sirrah.redditscreener.adapters.AdapterConstants
 import nl.sirrah.redditscreener.adapters.DelegateAdapter
 import nl.sirrah.redditscreener.adapters.ThumbnailAdapterDelegate
@@ -40,7 +40,7 @@ class OverviewFragment : BaseFragment() {
                         putString("description", item.title)
                     }
                 }
-                (activity as MainActivity).changeFragment(fragment)
+                activity.changeFragment(fragment)
             }))
 
     private var lastItem: String = ""
@@ -53,7 +53,7 @@ class OverviewFragment : BaseFragment() {
             setHasFixedSize(true)
             adapter = linkAdapter
 
-            addOnScrollListener(InfiniteScrollListener (onEndReached = {
+            addOnScrollListener(InfiniteScrollListener(onEndReached = {
                 loadSubReddit("awww")
             }))
         }
@@ -66,22 +66,23 @@ class OverviewFragment : BaseFragment() {
         // TODO use the RealmResults directly in the Adapter
         val result = realm.where(Link::class.java)
                 .findAll()
-        linkAdapter.addItems(result);
+        linkAdapter.addItems(result)
 
         Services.reddit.listing(subreddit, after = lastItem, limit = 20)
                 .doOnNext { listing ->
                     // Store in the database while still on the IO thread
-                    val realm = activity.newRealmInstance()
-
-                    realm.executeTransaction {
-                        realm.copyToRealmOrUpdate(listing.children)
+                    val realm = Realm.getDefaultInstance()
+                    realm.use {
+                        realm.executeTransaction {
+                            realm.copyToRealmOrUpdate(listing.children)
+                        }
                     }
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose (bindToLifecycle<Listing>())
+                .compose(bindToLifecycle<Listing>())
                 .subscribe({ listing ->
-                    linkAdapter.addItems(result);
+                    linkAdapter.addItems(result)
                     lastItem = listing.after
 
                     setTitle("/r/$subreddit")
@@ -100,7 +101,7 @@ class OverviewFragment : BaseFragment() {
      * If there is a toolbar, set it's title to the given string
      */
     private fun setTitle(title: String) {
-        val toolbar: Toolbar? = activity?.find(R.id.toolbar)
+        val toolbar: Toolbar? = activity.find(R.id.toolbar)
         toolbar?.title = title
     }
 }
