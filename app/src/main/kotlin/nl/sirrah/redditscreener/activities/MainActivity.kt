@@ -47,9 +47,9 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val manager = supportFragmentManager
         if (manager.backStackEntryCount > 1) {
-            manager.popBackStack();
+            manager.popBackStack()
         } else {
-            finish();
+            finish()
         }
     }
 

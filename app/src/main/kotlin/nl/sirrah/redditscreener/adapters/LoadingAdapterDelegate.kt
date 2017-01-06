@@ -15,6 +15,5 @@ class LoadingAdapterDelegate : ViewTypeDelegateAdapter {
     }
 
     class LoadingViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-            parent.inflate(R.layout.loading)) {
-    }
+            parent.inflate(R.layout.loading))
 }

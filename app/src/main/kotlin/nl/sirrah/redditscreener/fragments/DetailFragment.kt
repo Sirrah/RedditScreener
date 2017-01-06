@@ -26,8 +26,8 @@ class DetailFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         val view = container!!.inflate(R.layout.fragment_detail)
 
-        url = arguments?.get("url") as? String;
-        description = arguments?.get("description") as? String;
+        url = arguments?.get("url") as? String
+        description = arguments?.get("description") as? String
 
         // alternatively use the image property after the view has been fully loaded, i.e. in #onActivityCreated
         val image: ZoomableDraweeView = view.find(R.id.image)
@@ -54,7 +54,7 @@ class DetailFragment : BaseFragment() {
                 .setUri(url)
                 .build()
 
-        image.setController(controller)
+        image.controller = controller
         return view
     }
 
@@ -69,7 +69,7 @@ class DetailFragment : BaseFragment() {
      */
     private fun setTitle(title: String?) {
         if (title != null) {
-            val toolbar: Toolbar? = activity?.find(R.id.toolbar)
+            val toolbar: Toolbar? = activity.find(R.id.toolbar)
             toolbar?.title = title
         }
     }

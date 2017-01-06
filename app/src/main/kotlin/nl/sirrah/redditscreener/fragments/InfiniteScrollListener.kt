@@ -14,24 +14,24 @@ class InfiniteScrollListener(val onEndReached: () -> Unit) : RecyclerView.OnScro
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         if (dy > 0) {
-            visibleItemCount = recyclerView.childCount;
-            totalItemCount = recyclerView.layoutManager.itemCount;
+            visibleItemCount = recyclerView.childCount
+            totalItemCount = recyclerView.layoutManager.itemCount
 
             // FIXME is this a decent fallback?
             firstVisibleItem = (recyclerView.layoutManager as? LinearLayoutManager)
-                    ?.findFirstVisibleItemPosition() ?: 0;
+                    ?.findFirstVisibleItemPosition() ?: 0
 
             if (loading) {
                 if (totalItemCount > previousTotal) {
-                    loading = false;
-                    previousTotal = totalItemCount;
+                    loading = false
+                    previousTotal = totalItemCount
                 }
             }
             if (!loading
                     && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 recyclerView.snackbar("Getting more...")
                 onEndReached()
-                loading = true;
+                loading = true
             }
         }
     }
