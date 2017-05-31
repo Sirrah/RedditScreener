@@ -9,37 +9,35 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class Services {
-    companion object {
-        private val REDDIT_BASE_URL = "https://www.reddit.com/"
+object Services {
+    private val REDDIT_BASE_URL = "https://www.reddit.com/"
 
-        val okHttpClient: OkHttpClient by lazy {
-            val okHttpClientBuilder = OkHttpClient.Builder()
+    val okHttpClient: OkHttpClient by lazy {
+        val okHttpClientBuilder = OkHttpClient.Builder()
 
-            // Add logging when in debug mode
-            if (BuildConfig.DEBUG) {
-                val logger = HttpLoggingInterceptor()
-                logger.level = HttpLoggingInterceptor.Level.BODY
-                okHttpClientBuilder.addInterceptor(logger)
-            }
-
-            okHttpClientBuilder.build()
+        // Add logging when in debug mode
+        if (BuildConfig.DEBUG) {
+            val logger = HttpLoggingInterceptor()
+            logger.level = HttpLoggingInterceptor.Level.BODY
+            okHttpClientBuilder.addInterceptor(logger)
         }
 
-        val reddit by lazy {
-            val gson = GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .registerTypeAdapterFactory(ItemTypeAdapterFactory())
-                    .create ()
+        okHttpClientBuilder.build()
+    }
 
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(REDDIT_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(okHttpClient)
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build()
+    val reddit: RedditApi by lazy {
+        val gson = GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapterFactory(ItemTypeAdapterFactory())
+                .create()
 
-            retrofit.create(RedditApi::class.java)
-        }
+        val retrofit = Retrofit.Builder()
+                .baseUrl(REDDIT_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build()
+
+        retrofit.create(RedditApi::class.java)
     }
 }
