@@ -1,16 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'android-command'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId 'nl.sirrah.redditscreener'
-        targetSdkVersion 25
+        targetSdkVersion 27
         minSdkVersion 21
         versionCode 1
         versionName '0.0.1'
@@ -23,6 +24,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     sourceSets {
@@ -46,30 +52,32 @@ dependencies {
     compile "com.android.support:support-annotations:$support_version"
     androidTestCompile "com.android.support:support-annotations:$support_version"
 
-    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.google.code.gson:gson:2.8.0'
 
-    compile 'com.squareup.retrofit2:retrofit:2.0.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
-    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.9.1'
 
     // RealmBaseAdapter
     // compile 'io.realm:android-adapters:1.4.0'
 
+    // TODO replace Fresco with Glide, which has a much nicer API
     compile 'com.facebook.fresco:fresco:0.10.0'
     compile 'com.facebook.fresco:imagepipeline-okhttp3:0.10.0'
 
+    // TODO update to RxJava 2.x
     compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.1'
 
     compile 'com.trello:rxlifecycle:0.4.0'
     compile 'com.trello:rxlifecycle-components:0.4.0'
 
     compile 'joda-time:joda-time:2.9.1'
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile "org.jetbrains.anko:anko-common:$anko_version"
 
     // Enable these to use the Anko DSL and disable anko-common
