@@ -105,8 +105,8 @@ class ZoomableDraweeView @JvmOverloads constructor(
 
     internal inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
         override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
-            var distanceX = distanceX
-            var distanceY = distanceY
+            var dx = distanceX
+            var dy = distanceY
             //Only scroll when we are zoomed in
             if (currentScale > 1) {
                 val values = FloatArray(9)
@@ -118,16 +118,16 @@ class ZoomableDraweeView @JvmOverloads constructor(
                 manager.defaultDisplay.getMetrics(displayMetrics)
 
                 //Find the left and right limit for scrolling
-                if (distanceX < 0 && values[Matrix.MTRANS_X] > 0 || distanceX > 0 && values[Matrix.MTRANS_X] < -1 * (width * values[Matrix.MSCALE_X]) + displayMetrics.widthPixels) {
-                    distanceX = 0f
+                if (dx < 0 && values[Matrix.MTRANS_X] > 0 || dx > 0 && values[Matrix.MTRANS_X] < -1 * (width * values[Matrix.MSCALE_X]) + displayMetrics.widthPixels) {
+                    dx = 0f
                 }
 
                 //Find the top and bottom limit for scrolling
-                if (distanceY < 0 && values[Matrix.MTRANS_Y] > 0 || distanceY > 0 && values[Matrix.MTRANS_Y] < -1 * (height * values[Matrix.MSCALE_Y]) + (displayMetrics.heightPixels - actionBarHeight)) {
-                    distanceY = 0f
+                if (dy < 0 && values[Matrix.MTRANS_Y] > 0 || dy > 0 && values[Matrix.MTRANS_Y] < -1 * (height * values[Matrix.MSCALE_Y]) + (displayMetrics.heightPixels - actionBarHeight)) {
+                    dy = 0f
                 }
 
-                currentMatrix.postTranslate(-distanceX, -distanceY)
+                currentMatrix.postTranslate(-dx, -dy)
                 invalidate()
 
                 return true
