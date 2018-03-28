@@ -9,8 +9,7 @@ import nl.sirrah.redditscreener.common.adapters.ViewTypeDelegateAdapter
 import java.util.*
 
 open class DelegateAdapter<T : ViewType> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    protected val delegates = SparseArrayCompat<ViewTypeDelegateAdapter>()
+    private val delegates = SparseArrayCompat<ViewTypeDelegateAdapter>()
     private val items: ArrayList<ViewType> = ArrayList()
 
     private val loadingItem = object : ViewType {
@@ -68,11 +67,11 @@ open class DelegateAdapter<T : ViewType> : RecyclerView.Adapter<RecyclerView.Vie
     @Suppress("UNCHECKED_CAST")
     fun getItems(): List<T> {
         return items
-                .filter { it.getViewType() != AdapterConstants.LOADING }
-                .map { it as T }
+            .filter { it.getViewType() != AdapterConstants.LOADING }
+            .map { it as T }
     }
 
-    fun addDelegate(viewType: Int, delegate: ViewTypeDelegateAdapter) : DelegateAdapter<T> = apply {
+    fun addDelegate(viewType: Int, delegate: ViewTypeDelegateAdapter): DelegateAdapter<T> = apply {
         delegates.put(viewType, delegate)
     }
 

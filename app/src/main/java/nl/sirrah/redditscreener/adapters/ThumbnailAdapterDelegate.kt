@@ -23,7 +23,8 @@ class ThumbnailAdapterDelegate(val onClick: (item: Link) -> Unit) : ViewTypeDele
     }
 
     inner class ThumbnailViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-            parent.inflate(R.layout.link_item)) {
+        parent.inflate(R.layout.link_item)
+    ) {
 
         fun bind(item: Link) {
             val url = item.preview?.images?.first()?.source?.url

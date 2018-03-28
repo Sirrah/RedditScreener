@@ -17,7 +17,8 @@ import com.facebook.drawee.view.SimpleDraweeView
  * This class is converted to Kotlin from https://gist.github.com/nbarraille/eb5d0da20bc813969b08
  */
 class ZoomableDraweeView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : SimpleDraweeView(context, attrs, defStyle) {
+    context: Context, attrs: AttributeSet? = null, defStyle: Int = 0
+) : SimpleDraweeView(context, attrs, defStyle) {
     private val scaleDetector: ScaleGestureDetector
     private val scaleListener: ScaleGestureDetector.OnScaleGestureListener
     private val gestureDetector: GestureDetector
@@ -104,7 +105,12 @@ class ZoomableDraweeView @JvmOverloads constructor(
     }
 
     internal inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
-        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            distanceX: Float,
+            distanceY: Float
+        ): Boolean {
             var dx = distanceX
             var dy = distanceY
             //Only scroll when we are zoomed in

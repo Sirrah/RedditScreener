@@ -18,25 +18,25 @@ object Services {
         val okHttpClientBuilder = OkHttpClient.Builder()
 
         okHttpClientBuilder.addInterceptor(HttpLoggingInterceptor()
-                .apply {
-                    level = if (BuildConfig.DEBUG) BODY else BASIC
-                })
+            .apply {
+                level = if (BuildConfig.DEBUG) BODY else BASIC
+            })
 
         okHttpClientBuilder.build()
     }
 
     val reddit: RedditApi by lazy {
         val gson = GsonBuilder()
-                .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapterFactory(ItemTypeAdapterFactory())
-                .create()
+            .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapterFactory(ItemTypeAdapterFactory())
+            .create()
 
         val retrofit = Retrofit.Builder()
-                .baseUrl(REDDIT_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build()
+            .baseUrl(REDDIT_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .build()
 
         retrofit.create(RedditApi::class.java)
     }

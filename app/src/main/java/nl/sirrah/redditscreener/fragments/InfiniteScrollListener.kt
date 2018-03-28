@@ -19,7 +19,7 @@ class InfiniteScrollListener(val onEndReached: () -> Unit) : RecyclerView.OnScro
 
             // FIXME is this a decent fallback?
             firstVisibleItem = (recyclerView.layoutManager as? LinearLayoutManager)
-                    ?.findFirstVisibleItemPosition() ?: 0
+                ?.findFirstVisibleItemPosition() ?: 0
 
             if (loading) {
                 if (totalItemCount > previousTotal) {
@@ -28,7 +28,8 @@ class InfiniteScrollListener(val onEndReached: () -> Unit) : RecyclerView.OnScro
                 }
             }
             if (!loading
-                    && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)
+            ) {
                 recyclerView.snackbar("Getting more...")
                 onEndReached()
                 loading = true

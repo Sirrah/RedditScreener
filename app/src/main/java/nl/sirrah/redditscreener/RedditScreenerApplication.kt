@@ -26,9 +26,9 @@ class RedditScreenerApplication : Application() {
 
         // Create configuration and reset Realm
         val realmConfig = RealmConfiguration.Builder()
-                .schemaVersion(BuildConfig.REALM_DATABASE_VERSION)
-                .migration(RedditRealmMigration())
-                .build()
+            .schemaVersion(BuildConfig.REALM_DATABASE_VERSION)
+            .migration(RedditRealmMigration())
+            .build()
         Realm.setDefaultConfiguration(realmConfig)
     }
 
@@ -40,9 +40,9 @@ class RedditScreenerApplication : Application() {
         requestListeners.add(RequestLoggingListener())
 
         val config = OkHttpImagePipelineConfigFactory
-                .newBuilder(context, Services.okHttpClient)
-                .setRequestListeners(requestListeners)
-                .build()
+            .newBuilder(context, Services.okHttpClient)
+            .setRequestListeners(requestListeners)
+            .build()
 
         // Initialize Fresco, including logging
         Fresco.initialize(context, config)

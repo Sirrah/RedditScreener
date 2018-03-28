@@ -25,23 +25,25 @@ import rx.schedulers.Schedulers
 
 class OverviewFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return container!!.inflate(R.layout.fragment_overview)
     }
 
     private val linkAdapter = DelegateAdapter<Link>()
-            .addDelegate(AdapterConstants.LINK, ThumbnailAdapterDelegate({ item ->
-                // TODO what happened to Anko's #withArguments?
-                val fragment = DetailFragment().apply {
-                    arguments = Bundle().apply {
-                        val url = item.preview?.images?.first()?.source?.url
-                        putString("url", url)
-                        putString("description", item.title)
-                    }
+        .addDelegate(AdapterConstants.LINK, ThumbnailAdapterDelegate({ item ->
+            // TODO what happened to Anko's #withArguments?
+            val fragment = DetailFragment().apply {
+                arguments = Bundle().apply {
+                    val url = item.preview?.images?.first()?.source?.url
+                    putString("url", url)
+                    putString("description", item.title)
                 }
-                activity.changeFragment(fragment)
-            }))
+            }
+            activity.changeFragment(fragment)
+        }))
 
     private var lastItem: String = ""
 
@@ -65,36 +67,36 @@ class OverviewFragment : BaseFragment() {
     private fun loadSubReddit(subreddit: String) {
         // TODO use the RealmResults directly in the Adapter
         val result = realm.where(Link::class.java)
-                .findAll()
+            .findAll()
         linkAdapter.addItems(result)
 
         Services.reddit.listing(subreddit, after = lastItem, limit = 20)
-                .doOnNext { listing ->
-                    // Store in the database while still on the IO thread
-                    val realm = Realm.getDefaultInstance()
-                    realm.use {
-                        realm.executeTransaction {
-                            realm.copyToRealmOrUpdate(listing.children)
-                        }
+            .doOnNext { listing ->
+                // Store in the database while still on the IO thread
+                val realm = Realm.getDefaultInstance()
+                realm.use {
+                    realm.executeTransaction {
+                        realm.copyToRealmOrUpdate(listing.children)
                     }
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(bindToLifecycle<Listing>())
-                .subscribe({ listing ->
-                    linkAdapter.addItems(result)
-                    lastItem = listing.after
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .compose(bindToLifecycle<Listing>())
+            .subscribe({ listing ->
+                linkAdapter.addItems(result)
+                lastItem = listing.after
 
-                    setTitle("/r/$subreddit")
-                }, { e ->
-                    error("Exception while retrieving subreddit", e)
-                    snackbar("Caught exception: ${e.message}", Snackbar.LENGTH_LONG)
-                            .setAction(R.string.retry) {
-                                // Reset the list to the beginning
-                                lastItem = ""
-                                loadSubReddit(subreddit)
-                            }
-                })
+                setTitle("/r/$subreddit")
+            }, { e ->
+                error("Exception while retrieving subreddit", e)
+                snackbar("Caught exception: ${e.message}", Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry) {
+                        // Reset the list to the beginning
+                        lastItem = ""
+                        loadSubReddit(subreddit)
+                    }
+            })
     }
 
     /**

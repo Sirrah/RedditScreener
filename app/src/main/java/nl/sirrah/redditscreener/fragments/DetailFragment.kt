@@ -22,8 +22,10 @@ class DetailFragment : BaseFragment() {
 
     private var description: String? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (container == null) return null
 
         val root = container.inflate(R.layout.fragment_detail)
@@ -36,7 +38,11 @@ class DetailFragment : BaseFragment() {
 
         //Listener for the fresco image loader to react on success/failure
         val controllerListener = object : BaseControllerListener<ImageInfo>() {
-            override fun onFinalImageSet(id: String?, imageInfo: ImageInfo?, animatable: Animatable?) {
+            override fun onFinalImageSet(
+                id: String?,
+                imageInfo: ImageInfo?,
+                animatable: Animatable?
+            ) {
                 //Get the height of the actionBar for the current theme. This height is used to
                 //determine the panning-height for the imageView.
                 val tv = TypedValue()
@@ -52,9 +58,9 @@ class DetailFragment : BaseFragment() {
         }
 
         val controller = Fresco.newDraweeControllerBuilder()
-                .setControllerListener(controllerListener)
-                .setUri(url)
-                .build()
+            .setControllerListener(controllerListener)
+            .setUri(url)
+            .build()
 
         image.controller = controller
         return root
