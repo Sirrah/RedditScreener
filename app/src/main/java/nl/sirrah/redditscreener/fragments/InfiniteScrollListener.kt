@@ -15,7 +15,7 @@ class InfiniteScrollListener(val onEndReached: () -> Unit) : RecyclerView.OnScro
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         if (dy > 0) {
             visibleItemCount = recyclerView.childCount
-            totalItemCount = recyclerView.layoutManager.itemCount
+            totalItemCount = recyclerView.layoutManager?.itemCount ?: 0
 
             // FIXME is this a decent fallback?
             firstVisibleItem = (recyclerView.layoutManager as? LinearLayoutManager)
