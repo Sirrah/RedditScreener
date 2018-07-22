@@ -2,6 +2,7 @@ package nl.sirrah.redditscreener
 
 import android.app.Application
 import android.content.Context
+import android.os.StrictMode
 import com.facebook.common.logging.FLog
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
@@ -16,6 +17,29 @@ import java.util.*
 class RedditScreenerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG) {
+            // Detect bad behaviours in the app,
+            // see https://developer.android.com/reference/android/os/StrictMode
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+//                    .detectDiskReads()
+//                    .detectDiskWrites()
+//                    .detectNetwork()   // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .build()
+            )
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
+                    .detectAll()
+//                    .detectLeakedSqlLiteObjects()
+//                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build()
+            )
+        }
 
         initializeRealm()
         initializeFresco()
