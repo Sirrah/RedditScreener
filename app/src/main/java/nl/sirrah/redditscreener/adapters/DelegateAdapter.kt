@@ -1,6 +1,6 @@
 package nl.sirrah.redditscreener.adapters
 
-import android.support.v4.util.SparseArrayCompat
+import androidx.core.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.ViewGroup

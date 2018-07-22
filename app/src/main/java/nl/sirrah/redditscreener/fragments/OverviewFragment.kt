@@ -1,15 +1,16 @@
 package nl.sirrah.redditscreener.fragments
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.sirrah.redditscreener.R
+import nl.sirrah.redditscreener.R.id.links
 import nl.sirrah.redditscreener.adapters.AdapterConstants
 import nl.sirrah.redditscreener.adapters.DelegateAdapter
 import nl.sirrah.redditscreener.adapters.ThumbnailAdapterDelegate

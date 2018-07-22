@@ -1,16 +1,16 @@
 package nl.sirrah.redditscreener.common.extensions
 
 import android.app.Activity
-import android.net.Uri
 import android.os.Build
-import android.support.design.widget.Snackbar
-import android.support.design.widget.Snackbar.LENGTH_SHORT
-import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import com.facebook.drawee.view.SimpleDraweeView
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import kotlinx.android.synthetic.main.link_item.view.*
 import org.jetbrains.anko.find
 
@@ -23,7 +23,7 @@ fun SimpleDraweeView.setImageUri(uri: String?) {
         // with @undeprecate in SimpleDraweeView. Unfortunately Kotlin does not detect that javadoc
         // annotation.
         @Suppress("DEPRECATION")
-        image.setImageURI(Uri.parse(uri))
+        image.setImageURI(uri?.toUri())
     }
 }
 

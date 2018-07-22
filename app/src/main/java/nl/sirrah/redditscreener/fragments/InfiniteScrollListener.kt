@@ -1,7 +1,7 @@
 package nl.sirrah.redditscreener.fragments
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import nl.sirrah.redditscreener.common.extensions.snackbar
 
 class InfiniteScrollListener(val onEndReached: () -> Unit) : RecyclerView.OnScrollListener() {

@@ -1,10 +1,10 @@
 package nl.sirrah.redditscreener.activities
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import io.realm.Realm
 import nl.sirrah.redditscreener.R
 import nl.sirrah.redditscreener.fragments.OverviewFragment

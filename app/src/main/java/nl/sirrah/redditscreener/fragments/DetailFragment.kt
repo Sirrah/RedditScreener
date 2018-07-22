@@ -2,7 +2,6 @@ package nl.sirrah.redditscreener.fragments
 
 import android.graphics.drawable.Animatable
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
