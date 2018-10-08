@@ -18,26 +18,27 @@ class RedditScreenerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG && false) {
             // Detect bad behaviours in the app,
             // see https://developer.android.com/reference/android/os/StrictMode
             StrictMode.setThreadPolicy(
-                StrictMode.ThreadPolicy.Builder()
-                    .detectAll()
-//                    .detectDiskReads()
-//                    .detectDiskWrites()
-//                    .detectNetwork()   // or .detectAll() for all detectable problems
-                    .penaltyLog()
-                    .build()
+                    StrictMode.ThreadPolicy.Builder()
+                            .detectAll()
+//                            .detectDiskReads()
+//                            .detectDiskWrites()
+//                            .detectNetwork()   // or .detectAll() for all detectable problems
+                            .penaltyLog()
+                            .penaltyDialog()
+                            .build()
             )
             StrictMode.setVmPolicy(
-                StrictMode.VmPolicy.Builder()
-                    .detectAll()
-//                    .detectLeakedSqlLiteObjects()
-//                    .detectLeakedClosableObjects()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build()
+                    StrictMode.VmPolicy.Builder()
+                            .detectAll()
+//                            .detectLeakedSqlLiteObjects()
+//                            .detectLeakedClosableObjects()
+                            .penaltyLog()
+                            .penaltyDeath()
+                            .build()
             )
         }
 
@@ -50,9 +51,9 @@ class RedditScreenerApplication : Application() {
 
         // Create configuration and reset Realm
         val realmConfig = RealmConfiguration.Builder()
-            .schemaVersion(BuildConfig.REALM_DATABASE_VERSION)
-            .migration(RedditRealmMigration())
-            .build()
+                .schemaVersion(BuildConfig.REALM_DATABASE_VERSION)
+                .migration(RedditRealmMigration())
+                .build()
         Realm.setDefaultConfiguration(realmConfig)
     }
 
@@ -64,9 +65,9 @@ class RedditScreenerApplication : Application() {
         requestListeners.add(RequestLoggingListener())
 
         val config = OkHttpImagePipelineConfigFactory
-            .newBuilder(context, Services.okHttpClient)
-            .setRequestListeners(requestListeners)
-            .build()
+                .newBuilder(context, Services.okHttpClient)
+                .setRequestListeners(requestListeners)
+                .build()
 
         // Initialize Fresco, including logging
         Fresco.initialize(context, config)

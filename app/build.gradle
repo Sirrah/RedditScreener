@@ -72,7 +72,7 @@ dependencies {
     implementation 'joda-time:joda-time:2.9.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-common:$anko_version"
+    implementation "org.jetbrains.anko:anko:$anko_version"
 
     // Enable these to use the Anko DSL and disable anko-common
     // anko-sdkXX should correspond to the minSdkVersion

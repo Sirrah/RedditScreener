@@ -25,12 +25,12 @@ open class DelegateAdapter<T : ViewType> : RecyclerView.Adapter<RecyclerView.Vie
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         Log.d("test", "onCreateViewHolder")
-        return delegates.get(viewType).onCreateViewHolder(parent)
+        return delegates.get(viewType)!!.onCreateViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("test", "onBindViewHolder")
-        delegates.get(getItemViewType(position)).onBindViewHolder(holder, items[position])
+        delegates.get(getItemViewType(position))!!.onBindViewHolder(holder, items[position])
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -58,7 +58,6 @@ open class DelegateAdapter<T : ViewType> : RecyclerView.Adapter<RecyclerView.Vie
         // FIXME this seems broken, getLastPosition will always return 0
         notifyItemRangeRemoved(0, getLastPosition())
 
-
         items.addAll(newItems)
         items.add(loadingItem)
         notifyItemRangeInserted(0, items.size)
@@ -67,8 +66,8 @@ open class DelegateAdapter<T : ViewType> : RecyclerView.Adapter<RecyclerView.Vie
     @Suppress("UNCHECKED_CAST")
     fun getItems(): List<T> {
         return items
-            .filter { it.getViewType() != AdapterConstants.LOADING }
-            .map { it as T }
+                .filter { it.getViewType() != AdapterConstants.LOADING }
+                .map { it as T }
     }
 
     fun addDelegate(viewType: Int, delegate: ViewTypeDelegateAdapter): DelegateAdapter<T> = apply {
