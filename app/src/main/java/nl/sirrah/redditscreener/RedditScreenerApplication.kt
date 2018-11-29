@@ -18,7 +18,7 @@ class RedditScreenerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG && false) {
+        if (BuildConfig.DEBUG) {
             // Detect bad behaviours in the app,
             // see https://developer.android.com/reference/android/os/StrictMode
             StrictMode.setThreadPolicy(
@@ -28,7 +28,7 @@ class RedditScreenerApplication : Application() {
 //                            .detectDiskWrites()
 //                            .detectNetwork()   // or .detectAll() for all detectable problems
                             .penaltyLog()
-                            .penaltyDialog()
+//                            .penaltyDialog()
                             .build()
             )
             StrictMode.setVmPolicy(
@@ -37,7 +37,7 @@ class RedditScreenerApplication : Application() {
 //                            .detectLeakedSqlLiteObjects()
 //                            .detectLeakedClosableObjects()
                             .penaltyLog()
-                            .penaltyDeath()
+//                            .penaltyDeath()
                             .build()
             )
         }
