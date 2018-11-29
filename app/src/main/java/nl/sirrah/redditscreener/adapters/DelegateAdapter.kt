@@ -66,8 +66,8 @@ open class DelegateAdapter<T : ViewType> : RecyclerView.Adapter<RecyclerView.Vie
     @Suppress("UNCHECKED_CAST")
     fun getItems(): List<T> {
         return items
-                .filter { it.getViewType() != AdapterConstants.LOADING }
-                .map { it as T }
+            .filter { it.getViewType() != AdapterConstants.LOADING }
+            .map { it as T }
     }
 
     fun addDelegate(viewType: Int, delegate: ViewTypeDelegateAdapter): DelegateAdapter<T> = apply {

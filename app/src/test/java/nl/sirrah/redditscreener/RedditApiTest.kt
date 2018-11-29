@@ -22,14 +22,14 @@ class RedditApiTest {
     @Before
     fun setup() {
         mockWhen(redditApi.listing(anyString(), anyString(), anyInt())).thenReturn(
-                just(emptyListing)
+            just(emptyListing)
         )
     }
 
     @Test
     fun listing() {
         redditApi.listing("awww")
-                .subscribe(subscriber)
+            .subscribe(subscriber)
 
         with(subscriber) {
             assertNoErrors()
